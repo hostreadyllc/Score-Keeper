@@ -1,6 +1,6 @@
 # Score Keeper
 
-A scoreboard for 26 sports, each scored by its own rules. It is a single `index.html` file with no build step and no dependencies beyond Google Fonts.
+A scoreboard for 26 sports, each scored by its own rules. It is a plain web app with no build step and no outside dependencies: fonts and icons are bundled, and a service worker keeps it working offline. You can install it on a phone like an app.
 
 ## Sports
 
@@ -15,13 +15,29 @@ A scoreboard for 26 sports, each scored by its own rules. It is a single `index.
 
 ## Features
 
+- **Works offline.** After the first visit, everything is cached on the device. The home screen shows "Ready offline" once it is.
+- **Installable.** On a phone, use "Add to Home Screen" (iPhone: Share menu; Android: browser menu or the install prompt).
+- **Teams and players.** Tap "Edit teams & players" to rename teams and build a roster. Teams with players are saved on the device and can be loaded into any later game.
+- **Credit scorers.** In timed team sports, pick a player before tapping a score and a scorers table builds up below the line score.
 - Undo for every action
-- Editable team and player names
 - Format options per sport, such as best of 3 or 5 sets
-- The game in progress is saved in the browser, so it survives a reload
+- The game in progress is saved on the device, so it survives a reload
 - Light and dark themes that follow the device setting
-- Works on phones
+
+## Files
+
+| File | Purpose |
+| --- | --- |
+| `index.html` | The whole app: markup, styles and scoring logic |
+| `sw.js` | Service worker that caches the app for offline use |
+| `manifest.webmanifest` | App name, colors and icons for installing |
+| `fonts/` | Barlow and Big Shoulders Display (SIL Open Font License) |
+| `icons/` | App icons |
 
 ## Run it
 
-Open `index.html` in a browser. To publish it with GitHub Pages, go to **Settings → Pages**, choose **Deploy from a branch**, pick `main` and `/ (root)`, and save.
+Serve the folder over HTTP, for example `python3 -m http.server`, and open it in a browser. Opening `index.html` straight from disk also works, but offline caching needs HTTP or HTTPS.
+
+## Updating
+
+When you change any file, bump `VERSION` in `sw.js`. Installed copies then fetch the new files the next time they are online.
