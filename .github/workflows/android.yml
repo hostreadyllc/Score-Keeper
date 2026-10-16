@@ -16,9 +16,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
@@ -52,11 +52,20 @@ jobs:
           SK_KEY_PASS: ${{ secrets.KEY_PASSWORD }}
           VERSION_CODE: ${{ github.run_number }}
         run: |
+          set -o pipefail
           if [ "$SIGNED" = "1" ]; then
-            gradle --no-daemon bundleRelease assembleRelease
+            gradle --no-daemon --stacktrace bundleRelease assembleRelease 2>&1 | tee build.log
           else
-            gradle --no-daemon assembleDebug
+            gradle --no-daemon --stacktrace assembleDebug 2>&1 | tee build.log
           fi
+
+      - name: Report build errors
+        if: failure()
+        run: |
+          f=android/build.log; [ -f "$f" ] || exit 0
+          msg="$( (grep -E '(error:|^e: |ERROR:)' "$f" | head -15; grep -A20 'What went wrong' "$f" | head -30) )"
+          msg="${msg//'%'/'%25'}"; msg="${msg//$'\r'/}"; msg="${msg//$'\n'/'%0A'}"
+          echo "::error title=Gradle build failed::${msg}"
 
       - name: Collect the files
         run: |
