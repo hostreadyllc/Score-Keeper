@@ -1,0 +1,51 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Signing values come from environment variables set by the GitHub build (from repo secrets).
+def ksPath = System.getenv('SK_KEYSTORE')
+def hasSigning = ksPath != null && new File(ksPath).exists()
+
+android {
+    namespace 'com.hostreadyllc.scorekeeper'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId 'com.hostreadyllc.scorekeeper'
+        minSdk 24
+        targetSdk 36
+        versionCode((System.getenv('VERSION_CODE') ?: '1') as int)
+        versionName "1.0." + (System.getenv('VERSION_CODE') ?: '1')
+    }
+
+    signingConfigs {
+        if (hasSigning) {
+            upload {
+                storeFile file(ksPath)
+                storePassword System.getenv('SK_STORE_PASS')
+                keyAlias System.getenv('SK_KEY_ALIAS')
+                keyPassword System.getenv('SK_KEY_PASS')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (hasSigning) {
+                signingConfig signingConfigs.upload
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core:1.13.1'
+    implementation 'androidx.activity:activity:1.9.3'
+    implementation 'androidx.webkit:webkit:1.12.1'
+}

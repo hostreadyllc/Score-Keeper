@@ -152,6 +152,8 @@ thead th.cur{color:var(--ink)}
 /* golf */
 .players{display:flex;flex-direction:column;gap:8px}
 .pl{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px 16px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.pl>*{min-width:0}
+.pl .thead .name{flex:1 1 80px}
 .stk{display:flex;align-items:center;gap:8px}
 .stk .score{font-size:52px;min-width:44px;text-align:center;color:var(--ink)}
 .stk button{min-width:44px;font-size:20px}
@@ -644,9 +646,12 @@ $app.addEventListener('change',e=>{if(!S)return;const el=e.target;
  else if(el.matches('[data-load]')&&el.value&&LIB[el.value]){const i=+el.dataset.load,sd=sides()[i];sd.name=el.value;sd.roster=[...LIB[el.value]];sd.ps={};if(S.sel)S.sel[i]=-1;save();render()}});
 
 /* ---------- Offline ---------- */
-const SWOK='serviceWorker' in navigator&&/^https?:$/.test(location.protocol);
-let OFF=SWOK&&!!navigator.serviceWorker.controller;
-if(SWOK){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').then(()=>navigator.serviceWorker.ready).then(()=>{OFF=true;const el=document.getElementById('offl');if(el){el.classList.add('on');el.textContent='Ready offline'}}).catch(()=>{})})}
+const APP=/ScoreKeeperApp/.test(navigator.userAgent||'');
+const SWOK=APP||('serviceWorker' in navigator&&/^https?:$/.test(location.protocol));
+let OFF=APP||(SWOK&&!!navigator.serviceWorker.controller);
+// Android back button: close the editor, then return to the sport list, then leave the app.
+window.skBack=()=>{if(EDIT){EDIT=false;render();return true}if(VIEW==='game'){handle('home');return true}return false};
+if(SWOK&&!APP){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').then(()=>navigator.serviceWorker.ready).then(()=>{OFF=true;const el=document.getElementById('offl');if(el){el.classList.add('on');el.textContent='Ready offline'}}).catch(()=>{})})}
 
 load();render();
 </script>

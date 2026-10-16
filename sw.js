@@ -1,6 +1,6 @@
 // Score Keeper service worker: caches every file the app needs so it runs with no connection.
 // Bump VERSION whenever any cached file changes, so phones pick up the new copy.
-const VERSION = 'v2';
+const VERSION = 'v3';
 const CACHE = `score-keeper-${VERSION}`;
 const ASSETS = [
   './',

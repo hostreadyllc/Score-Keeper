@@ -1,0 +1,8 @@
+.gradle/
+build/
+app/build/
+local.properties
+*.jks
+*.keystore
+# Web files are copied in by the build from the repo root
+app/src/main/assets/www/

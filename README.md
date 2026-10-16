@@ -38,6 +38,19 @@ A scoreboard for 26 sports, each scored by its own rules. It is a plain web app 
 
 Serve the folder over HTTP, for example `python3 -m http.server`, and open it in a browser. Opening `index.html` straight from disk also works, but offline caching needs HTTP or HTTPS.
 
+## Android app
+
+The `android/` folder wraps the web app in a native Android app with package name `com.hostreadyllc.scorekeeper`. The web files are bundled inside, so the app runs fully offline.
+
+Every push to `main` runs the **Android build** workflow, which posts the files on the [Releases](../../releases/latest) page:
+
+- `score-keeper.aab`: the bundle to upload to Google Play Console
+- `score-keeper.apk`: installs directly on an Android phone
+
+The signed files need four repository secrets: `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD`. Without them, the build makes a test APK only. Keep the upload keystore backed up and private, because every update must be signed with the same key.
+
+Play Store images and listing text are in `store/`, and the privacy policy is `privacy.html`.
+
 ## Updating
 
 When you change any file, bump `VERSION` in `sw.js`. Installed copies then fetch the new files the next time they are online.

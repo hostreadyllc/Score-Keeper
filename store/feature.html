@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Score Keeper feature graphic</title>
+<style>
+@font-face{font-family:"BSD";font-weight:800;src:url(../fonts/big-shoulders-display-latin-800-normal.woff2) format("woff2")}
+@font-face{font-family:"BSD";font-weight:600;src:url(../fonts/big-shoulders-display-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Barlow";font-weight:600;src:url(../fonts/barlow-latin-600-normal.woff2) format("woff2")}
+html,body{margin:0;width:1024px;height:500px;overflow:hidden;background:#131920;color:#E6ECF1}
+.wrap{display:grid;grid-template-columns:1fr 430px;align-items:center;height:100%;padding:0 64px;box-sizing:border-box;gap:30px}
+h1{font:800 104px/0.86 "BSD",Impact,sans-serif;text-transform:uppercase;margin:0;letter-spacing:.01em}
+p{font:600 25px/1.35 "Barlow",sans-serif;color:#9AA7B4;margin:22px 0 0;max-width:420px}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.tags span{font:600 15px "Barlow",sans-serif;letter-spacing:.08em;text-transform:uppercase;border:1.5px solid #2E3A47;border-radius:999px;padding:6px 12px;color:#C9D2DB}
+.board{display:grid;grid-template-columns:1fr 34px 1fr;align-items:center}
+.p{border-radius:16px;padding:20px 22px 24px;color:#fff}
+.p.h{background:#C42B3B}.p.a{background:#1F5FBF}
+.p b{display:block;font:600 20px "Barlow",sans-serif;opacity:.9}
+.p i{display:block;font:800 150px/0.85 "BSD",sans-serif;font-style:normal;margin-top:10px;font-variant-numeric:tabular-nums}
+.colon{display:flex;flex-direction:column;gap:22px;align-items:center}
+.colon s{width:14px;height:14px;border-radius:50%;background:#F0B53A}
+.clock{grid-column:1/-1;margin-top:16px;text-align:center;font:800 40px "BSD",sans-serif;color:#F0B53A;letter-spacing:.04em}
+</style></head><body>
+<div class="wrap">
+ <div><h1>Score<br>Keeper</h1><p>Real scoring rules for 26 sports. Works with no internet.</p>
+  <div class="tags"><span>Basketball</span><span>Tennis</span><span>Cricket</span><span>Soccer</span><span>Golf</span></div></div>
+ <div class="board"><div class="p h"><b>Hawks</b><i>36</i></div><div class="colon"><s></s><s></s></div><div class="p a"><b>Falcons</b><i>26</i></div><div class="clock">Q2 · 7:42</div></div>
+</div>
+</body></html>
