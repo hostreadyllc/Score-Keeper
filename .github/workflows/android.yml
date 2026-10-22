@@ -56,7 +56,7 @@ jobs:
           if [ "$SIGNED" = "1" ]; then
             gradle --no-daemon --stacktrace bundleRelease assembleRelease 2>&1 | tee build.log
           else
-            gradle --no-daemon --stacktrace assembleDebug 2>&1 | tee build.log
+            gradle --no-daemon --stacktrace assembleDebug bundleRelease 2>&1 | tee build.log
           fi
 
       - name: Report build errors
@@ -75,6 +75,7 @@ jobs:
             cp android/app/build/outputs/apk/release/app-release.apk out/score-keeper.apk
           else
             cp android/app/build/outputs/apk/debug/app-debug.apk out/score-keeper-test.apk
+            cp android/app/build/outputs/bundle/release/app-release.aab out/score-keeper-unsigned.aab
           fi
           ls -la out
 
@@ -96,4 +97,5 @@ jobs:
             - score-keeper.aab: upload this to Google Play Console
             - score-keeper.apk: install directly on an Android phone
             - score-keeper-test.apk: test build, shown when signing secrets are not set
+            - score-keeper-unsigned.aab: bundle that still needs signing with the upload key
           files: out/*
